@@ -1,0 +1,42 @@
+graph TB
+    subgraph "User Interface"
+        A[Web Browser] -->|HTTP Request| B[Flask App]
+    end
+    
+    subgraph "Flask Backend"
+        B -->|Route: /| C[index.html]
+        B -->|Route: /api/jobs| D[Get Jobs from DB]
+        B -->|Route: /api/refresh| E[Trigger Scraping]
+        B -->|Route: /api/stats| F[Get Statistics]
+    end
+    
+    subgraph "Job Scrapers"
+        E --> G[Indeed Scraper]
+        E --> H[Job Bank Scraper]
+        E --> I[Eluta Scraper]
+        E --> J[Sample Jobs]
+    end
+    
+    subgraph "Data Storage"
+        G --> K[(SQLite Database)]
+        H --> K
+        I --> K
+        J --> K
+        D --> K
+        F --> K
+    end
+    
+    subgraph "Job Sites"
+        G -.->|HTTP Requests| L[Indeed.ca]
+        H -.->|HTTP Requests| M[JobBank.gc.ca]
+        I -.->|HTTP Requests| N[Eluta.ca]
+        J -.->|Manual Links| O[Amazon/Walmart/Loblaw]
+    end
+    
+    style A fill:#667eea,color:#fff
+    style B fill:#764ba2,color:#fff
+    style K fill:#48c774,color:#fff
+    style L fill:#ffdd57,color:#333
+    style M fill:#ffdd57,color:#333
+    style N fill:#ffdd57,color:#333
+    style O fill:#ffdd57,color:#333
